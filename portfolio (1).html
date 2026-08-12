@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brian Keya — Biostatistician &amp; Data Scientist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0b0f1a;
+    --bg-panel: #121a2e;
+    --bg-panel-alt: #17213a;
+    --text: #e7ecf5;
+    --text-muted: #8a95ac;
+    --teal: #45d8c8;
+    --teal-dim: rgba(69,216,200,0.15);
+    --coral: #ff7a59;
+    --coral-dim: rgba(255,122,89,0.15);
+    --border: rgba(255,255,255,0.08);
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  ::selection{ background: var(--teal); color: #0b0f1a; }
+
+  a{ color: inherit; text-decoration:none; }
+  .container{ max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+  section{ position: relative; padding: 120px 0; }
+
+  .eyebrow{
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.06em;
+    color: var(--teal);
+    text-transform: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before{
+    content:'';
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--teal);
+    box-shadow: 0 0 10px var(--teal);
+  }
+
+  h1,h2,h3{ font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position: fixed; top:0; left:0; right:0; z-index: 100;
+    backdrop-filter: blur(10px);
+    background: rgba(11,15,26,0.72);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner{
+    max-width: 1180px; margin:0 auto; padding: 18px 32px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .nav-logo{
+    font-family: var(--font-mono); font-size: 15px; font-weight: 600;
+    color: var(--text);
+    display:flex; align-items:center; gap:8px;
+  }
+  .nav-logo span{ color: var(--teal); }
+  .nav-links{ display:flex; gap: 36px; align-items:center; }
+  .nav-links a{
+    font-family: var(--font-mono); font-size: 13px; color: var(--text-muted);
+    transition: color 0.2s ease;
+  }
+  .nav-links a:hover{ color: var(--teal); }
+  .nav-cta{
+    font-family: var(--font-mono); font-size: 12.5px;
+    border: 1px solid var(--teal); color: var(--teal);
+    padding: 8px 16px; border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  .nav-cta:hover{ background: var(--teal); color: #0b0f1a; }
+  .nav-toggle{ display:none; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height: 100vh;
+    display:flex; align-items:center;
+    padding-top: 90px;
+    perspective: 1200px;
+  }
+  .hero-canvas-wrap{
+    position:absolute; inset:0; z-index:0;
+    transform-style: preserve-3d;
+    transition: transform 0.2s ease-out;
+  }
+  #network-canvas{ position:absolute; inset:0; width:100%; height:100%; }
+  .hero-fade{
+    position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(11,15,26,0.2) 0%, rgba(11,15,26,0.55) 60%, var(--bg) 100%);
+    z-index:1;
+  }
+  .hero-content{
+    position: relative; z-index: 2;
+    max-width: 720px;
+  }
+  .hero-content .eyebrow{ margin-bottom: 22px; }
+  .hero h1{
+    font-size: clamp(40px, 6vw, 68px);
+    line-height: 1.05;
+    margin-bottom: 18px;
+  }
+  .hero h1 .accent{ color: var(--teal); }
+  .hero p.lede{
+    font-size: 18px; color: var(--text-muted); max-width: 560px; margin-bottom: 36px;
+  }
+  .hero-actions{ display:flex; gap: 16px; flex-wrap: wrap; }
+  .btn{
+    font-family: var(--font-mono); font-size: 13.5px;
+    padding: 13px 24px; border-radius: 4px;
+    display:inline-flex; align-items:center; gap:8px;
+    transition: all 0.2s ease;
+  }
+  .btn-primary{ background: var(--teal); color: #0b0f1a; font-weight: 600; }
+  .btn-primary:hover{ background: #5be6d6; transform: translateY(-1px); }
+  .btn-ghost{ border: 1px solid var(--border); color: var(--text); }
+  .btn-ghost:hover{ border-color: var(--teal); color: var(--teal); }
+
+  .cred-strip{
+    display:flex; flex-wrap:wrap; align-items:center; gap: 14px;
+    margin-top: 44px; padding-top: 22px; border-top: 1px solid var(--border);
+    max-width: 560px;
+  }
+  .cred-strip span{
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em;
+    color: var(--text-muted);
+  }
+  .cred-strip i{ width: 3px; height: 3px; border-radius: 50%; background: var(--teal); opacity: 0.6; display:inline-block; }
+
+  .scroll-cue{
+    position:absolute; bottom: 40px; left: 32px; z-index:2;
+    font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
+    display:flex; align-items:center; gap: 10px;
+  }
+  .scroll-cue .line{ width:1px; height: 32px; background: linear-gradient(var(--teal), transparent); animation: scrollpulse 2s ease-in-out infinite; }
+  @keyframes scrollpulse{ 0%,100%{opacity:0.3;} 50%{opacity:1;} }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section-head{ margin-bottom: 56px; max-width: 620px; }
+  .section-head .eyebrow{ margin-bottom: 14px; }
+  .section-head h2{ font-size: clamp(28px, 3.5vw, 38px); margin-bottom: 14px; }
+  .section-head p{ color: var(--text-muted); font-size: 16px; }
+
+  /* ---------- ABOUT ---------- */
+  #about{ background: var(--bg-panel); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .about-grid{
+    display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items:center;
+  }
+  .about-text p{ color: var(--text-muted); margin-bottom: 18px; font-size: 16px; }
+  .about-text p strong{ color: var(--text); font-weight: 600; }
+  .stat-row{ display:grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 36px; }
+  .stat-card{
+    background: var(--bg-panel-alt); border: 1px solid var(--border); border-radius: 8px;
+    padding: 18px 16px;
+  }
+  .stat-card .num{ font-family: var(--font-mono); font-size: 24px; color: var(--teal); font-weight: 600; }
+  .stat-card .label{ font-size: 12.5px; color: var(--text-muted); margin-top: 4px; }
+
+  .km-card{
+    background: var(--bg-panel-alt); border: 1px solid var(--border); border-radius: 10px;
+    padding: 28px;
+  }
+  .km-card .km-label{ font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted); margin-bottom: 16px; letter-spacing:0.04em; }
+  .km-card svg{ width:100%; height:auto; display:block; }
+  .km-legend{ display:flex; gap: 20px; margin-top: 14px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+  .km-legend span{ display:flex; align-items:center; gap:6px; }
+  .km-legend i{ width:10px; height:2px; display:inline-block; }
+
+  /* ---------- PROJECTS ---------- */
+  .project-grid{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    perspective: 1000px;
+  }
+  .project-card{
+    background: var(--bg-panel); border: 1px solid var(--border); border-radius: 10px;
+    padding: 26px; position:relative; overflow:hidden;
+    transform-style: preserve-3d; transition: transform 0.15s ease-out, border-color 0.2s ease;
+  }
+  .project-card:hover{ border-color: rgba(69,216,200,0.35); }
+  .project-card .glare{
+    position:absolute; inset:0; pointer-events:none;
+    background: radial-gradient(circle at var(--gx,50%) var(--gy,50%), rgba(69,216,200,0.10), transparent 60%);
+    opacity:0; transition: opacity 0.2s ease;
+  }
+  .project-card:hover .glare{ opacity:1; }
+  .project-tag{
+    font-family: var(--font-mono); font-size: 10.5px; color: var(--coral);
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; display:block;
+  }
+  .project-card h3{ font-size: 18.5px; margin-bottom: 10px; }
+  .project-card p{ font-size: 14px; color: var(--text-muted); margin-bottom: 18px; }
+  .project-card svg{ width:100%; height:48px; display:block; margin-bottom: 16px; }
+  .pill-row{ display:flex; flex-wrap:wrap; gap: 8px; }
+  .pill{
+    font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted);
+    border: 1px solid var(--border); padding: 4px 9px; border-radius: 100px;
+  }
+
+  /* ---------- INTERACTIVE LAB ---------- */
+  #lab{ background: var(--bg-panel); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .lab-note{
+    font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted);
+    display:inline-flex; align-items:center; gap:8px; margin-top: 4px;
+  }
+  .lab-note::before{ content:'△'; color: var(--coral); font-size: 12px; }
+  .lab-stack{ display:flex; flex-direction:column; gap: 22px; }
+  .lab-card{
+    background: var(--bg-panel-alt); border: 1px solid var(--border); border-radius: 12px;
+    padding: 30px 32px; display:grid; grid-template-columns: 0.85fr 1.15fr; gap: 36px;
+  }
+  .lab-card .lab-meta{ display:flex; flex-direction:column; }
+  .lab-card .lab-tag{
+    font-family: var(--font-mono); font-size: 10.5px; color: var(--coral);
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px;
+  }
+  .lab-card h3{ font-size: 19px; margin-bottom: 10px; }
+  .lab-card .lab-desc{ font-size: 14px; color: var(--text-muted); margin-bottom: 22px; }
+
+  .lab-control{ margin-bottom: 18px; }
+  .lab-control label{
+    display:flex; justify-content:space-between; font-family: var(--font-mono);
+    font-size: 12px; color: var(--text-muted); margin-bottom: 10px;
+  }
+  .lab-control label .val{ color: var(--teal); }
+  input[type="range"]{
+    -webkit-appearance:none; width:100%; height: 3px; border-radius: 4px;
+    background: var(--border); outline:none;
+  }
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none; width: 15px; height:15px; border-radius:50%;
+    background: var(--teal); cursor:pointer; box-shadow: 0 0 0 4px var(--teal-dim);
+    transition: box-shadow 0.15s ease;
+  }
+  input[type="range"]::-webkit-slider-thumb:hover{ box-shadow: 0 0 0 7px var(--teal-dim); }
+  input[type="range"]::-moz-range-thumb{
+    width: 15px; height:15px; border-radius:50%; border:none;
+    background: var(--teal); cursor:pointer; box-shadow: 0 0 0 4px var(--teal-dim);
+  }
+
+  .lab-toggle{
+    display:inline-flex; align-items:center; gap: 10px; cursor:pointer;
+    font-family: var(--font-mono); font-size: 12.5px; color: var(--text);
+    user-select:none;
+  }
+  .lab-toggle input{ appearance:none; width: 34px; height: 19px; border-radius: 20px;
+    background: var(--border); position:relative; cursor:pointer; transition: background 0.2s ease; flex-shrink:0;
+  }
+  .lab-toggle input::before{
+    content:''; position:absolute; top:2px; left:2px; width:15px; height:15px; border-radius:50%;
+    background: var(--text-muted); transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .lab-toggle input:checked{ background: var(--teal-dim); }
+  .lab-toggle input:checked::before{ transform: translateX(15px); background: var(--teal); }
+
+  .lab-stats{ display:flex; gap: 22px; flex-wrap:wrap; margin-top: 18px; }
+  .lab-stat{ transition: opacity 0.25s ease; }
+  .lab-stat .num{ font-family: var(--font-mono); font-size: 21px; color: var(--teal); font-weight:600; }
+  .lab-stat.warn .num{ color: var(--coral); }
+  .lab-stat .label{ font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
+
+  .lab-viz{
+    background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 18px; position:relative;
+  }
+  .lab-viz svg{ width:100%; height:auto; display:block; overflow:visible; }
+  .lab-legend{ display:flex; gap: 18px; margin-top: 12px; font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); flex-wrap:wrap; }
+  .lab-legend span{ display:flex; align-items:center; gap:6px; }
+  .lab-legend i{ width:10px; height:2px; display:inline-block; }
+  .lab-tooltip{
+    position:absolute; pointer-events:none; opacity:0; transition: opacity 0.12s ease;
+    background: var(--bg-panel); border: 1px solid var(--teal); border-radius: 6px;
+    padding: 8px 11px; font-family: var(--font-mono); font-size: 11px; white-space:nowrap;
+    transform: translate(-50%, -110%); z-index: 5;
+  }
+  .lab-tooltip.show{ opacity: 1; }
+  .lab-tooltip .row{ color: var(--text-muted); }
+  .lab-tooltip .row b{ color: var(--text); }
+
+  @media (max-width: 860px){
+    .lab-card{ grid-template-columns: 1fr; gap: 20px; }
+  }
+
+  /* ---------- SKILLS ---------- */
+  #skills{ background: var(--bg-panel); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .skills-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 36px 48px; }
+  .skill-group .group-title{
+    font-family: var(--font-mono); font-size: 12px; color: var(--teal);
+    letter-spacing: 0.06em; margin-bottom: 16px; display:flex; align-items:center; gap:10px;
+  }
+  .skill-group .group-title::after{ content:''; flex:1; height:1px; background: var(--border); }
+  .skill-tags{ display:flex; flex-wrap:wrap; gap: 10px; }
+  .skill-tag{
+    font-size: 13.5px; padding: 8px 14px; border-radius: 6px;
+    background: var(--bg-panel-alt); border: 1px solid var(--border);
+    transition: border-color 0.2s ease, transform 0.15s ease;
+  }
+  .skill-tag:hover{ border-color: var(--teal); transform: translateY(-2px); }
+
+  /* ---------- CONTACT ---------- */
+  .contact-inner{ text-align:center; max-width: 620px; margin: 0 auto; }
+  .contact-inner .eyebrow{ justify-content:center; margin-bottom: 20px; }
+  .contact-inner h2{ font-size: clamp(30px,4vw,44px); margin-bottom: 18px; }
+  .contact-inner p{ color: var(--text-muted); margin-bottom: 36px; font-size: 16px; }
+  .contact-links{ display:flex; justify-content:center; gap: 16px; flex-wrap:wrap; margin-bottom: 60px; }
+
+  .pulse-divider{ width:100%; height: 40px; margin: 0 auto; opacity:0.6; }
+
+  footer{ padding: 32px 0 48px; text-align:center; }
+  footer p{ font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
+
+  /* ---------- REVEAL ---------- */
+  .reveal{ opacity:0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in{ opacity:1; transform: translateY(0); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 860px){
+    .nav-links{ display:none; }
+    .about-grid{ grid-template-columns: 1fr; gap: 40px; }
+    .project-grid{ grid-template-columns: 1fr 1fr; }
+    .skills-grid{ grid-template-columns: 1fr; }
+    section{ padding: 90px 0; }
+  }
+  @media (max-width: 560px){
+    .project-grid{ grid-template-columns: 1fr; }
+    .stat-row{ grid-template-columns: 1fr; }
+    .container{ padding: 0 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  }
+
+  :focus-visible{ outline: 2px solid var(--teal); outline-offset: 3px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo"><span>{</span>Brian Keya<span>}</span></div>
+    <div class="nav-links">
+      <a href="#about">about</a>
+      <a href="#projects">work</a>
+      <a href="#lab">interactive lab</a>
+      <a href="#skills">skills</a>
+      <a href="#contact" class="nav-cta">get in touch</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="hero">
+  <div class="hero-canvas-wrap" id="hero-visual">
+    <canvas id="network-canvas"></canvas>
+  </div>
+  <div class="hero-fade"></div>
+  <div class="container hero-content">
+    <div class="eyebrow">BIOSTATISTICS &nbsp;×&nbsp; CAUSAL INFERENCE &nbsp;×&nbsp; MACHINE LEARNING</div>
+    <h1>I turn complex health data into <span class="accent">decisions you can defend.</span></h1>
+    <p class="lede">Clinical trials, real-world evidence, survival analysis and predictive modeling — built for research teams and organizations making high-stakes decisions.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">Explore my work →</a>
+      <a href="#lab" class="btn btn-ghost">Try the interactive lab</a>
+      <a href="#contact" class="btn btn-ghost">Let's work together</a>
+    </div>
+    <div class="cred-strip">
+      <span>6+ YEARS</span><i></i><span>40+ ANALYSES</span><i></i><span>12 PUBLICATIONS</span><i></i><span>R / PYTHON / SAS</span>
+    </div>
+  </div>
+  <div class="scroll-cue"><div class="line"></div>scroll</div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about">
+  <div class="container about-grid">
+    <div class="about-text reveal">
+      <div class="eyebrow">about</div>
+      <h2 style="margin: 14px 0 22px; font-size: clamp(26px,3vw,34px);">Trained at the bench. Sharpened in the notebook.</h2>
+      <p>I started in <strong>clinical biostatistics</strong> — designing trials, defending analysis plans, and learning exactly how much rigor a p-value actually earns. That discipline now shapes how I build machine learning systems: every model gets interrogated for confounding, leakage, and the difference between correlation and something you can act on.</p>
+      <p>Today I work across <strong>survival analysis, causal inference, and applied ML</strong>, partnering with clinical and research teams to turn messy longitudinal data into evidence that survives peer review — and production.</p>
+      <div class="stat-row">
+        <div class="stat-card"><div class="num">40+</div><div class="label">Analyses shipped</div></div>
+        <div class="stat-card"><div class="num">12</div><div class="label">Peer-reviewed outputs</div></div>
+        <div class="stat-card"><div class="num">6 yrs</div><div class="label">Bench to notebook</div></div>
+      </div>
+    </div>
+
+    <div class="km-card reveal">
+      <div class="km-label">KAPLAN–MEIER SURVIVAL ESTIMATE · TREATMENT VS. CONTROL</div>
+      <svg viewBox="0 0 400 220" id="km-svg">
+        <line x1="30" y1="180" x2="380" y2="180" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <line x1="30" y1="20" x2="30" y2="180" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <path id="km-path-a" d="M30,30 L100,30 L100,55 L170,55 L170,80 L230,80 L230,100 L290,100 L290,115 L380,115"
+          fill="none" stroke="#45d8c8" stroke-width="2.5" />
+        <path id="km-path-b" d="M30,30 L80,30 L80,90 L140,90 L140,130 L200,130 L200,155 L270,155 L270,170 L380,170"
+          fill="none" stroke="#ff7a59" stroke-width="2.5" />
+      </svg>
+      <div class="km-legend">
+        <span><i style="background:#45d8c8"></i>Treatment arm</span>
+        <span><i style="background:#ff7a59"></i>Control arm</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section id="projects">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">selected work</div>
+      <h2>Projects</h2>
+      <p>A sample of analyses and systems — swap in your own case studies, links, and metrics.</p>
+    </div>
+
+    <div class="project-grid">
+
+      <div class="project-card reveal">
+        <div class="glare"></div>
+        <span class="project-tag">Survival Analysis</span>
+        <svg viewBox="0 0 200 48"><polyline points="0,10 30,10 30,20 60,20 60,28 90,28 90,34 130,34 130,40 200,40" fill="none" stroke="#45d8c8" stroke-width="2"/></svg>
+        <h3>Oncology Trial Survival Model</h3>
+        <p>Cox proportional hazards model combined with a gradient-boosted risk score to flag high-risk patients earlier in a phase III oncology trial.</p>
+        <div class="pill-row"><span class="pill">R</span><span class="pill">survival</span><span class="pill">XGBoost</span></div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="glare"></div>
+        <span class="project-tag">Causal Inference</span>
+        <svg viewBox="0 0 200 48"><circle cx="20" cy="24" r="5" fill="#ff7a59"/><circle cx="100" cy="12" r="5" fill="#45d8c8"/><circle cx="180" cy="24" r="5" fill="#45d8c8"/><line x1="20" y1="24" x2="100" y2="12" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/><line x1="100" y1="12" x2="180" y2="24" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/><line x1="20" y1="24" x2="180" y2="24" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/></svg>
+        <h3>Confounder-Adjusted Causal Pipeline</h3>
+        <p>DAG-driven adjustment set selection with propensity score matching, reducing bias in an observational drug-safety study.</p>
+        <div class="pill-row"><span class="pill">Python</span><span class="pill">DoWhy</span><span class="pill">PSM</span></div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="glare"></div>
+        <span class="project-tag">Dashboarding</span>
+        <svg viewBox="0 0 200 48"><rect x="10" y="20" width="16" height="24" fill="#45d8c8" opacity="0.8"/><rect x="36" y="10" width="16" height="34" fill="#45d8c8" opacity="0.6"/><rect x="62" y="26" width="16" height="18" fill="#45d8c8" opacity="0.8"/><rect x="88" y="4" width="16" height="40" fill="#ff7a59" opacity="0.8"/><rect x="114" y="18" width="16" height="26" fill="#45d8c8" opacity="0.6"/></svg>
+        <h3>Real-World Evidence Dashboard</h3>
+        <p>Interactive Shiny dashboard letting non-technical stakeholders explore claims data cohorts and export regulator-ready summaries.</p>
+        <div class="pill-row"><span class="pill">R Shiny</span><span class="pill">SQL</span><span class="pill">RWE</span></div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="glare"></div>
+        <span class="project-tag">Bayesian Methods</span>
+        <svg viewBox="0 0 200 48"><path d="M0,44 C40,44 40,4 70,4 C100,4 100,44 140,44 C170,44 170,20 200,20" fill="none" stroke="#45d8c8" stroke-width="2"/></svg>
+        <h3>Adaptive Trial Simulator</h3>
+        <p>Bayesian simulation engine for adaptive dose-finding trials, cutting expected sample size by 18% while preserving power.</p>
+        <div class="pill-row"><span class="pill">Stan</span><span class="pill">Python</span><span class="pill">MCMC</span></div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="glare"></div>
+        <span class="project-tag">Genomics · ML</span>
+        <svg viewBox="0 0 200 48"><path d="M10,24 C30,4 30,44 50,24 C70,4 70,44 90,24 C110,4 110,44 130,24 C150,4 150,44 170,24 C190,4 190,44 200,24" fill="none" stroke="#ff7a59" stroke-width="2"/></svg>
+        <h3>Genomic Risk Prediction</h3>
+        <p>Regularized regression and random forest ensemble on SNP data to predict polygenic risk, validated against an independent cohort.</p>
+        <div class="pill-row"><span class="pill">Python</span><span class="pill">glmnet</span><span class="pill">scikit-learn</span></div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="glare"></div>
+        <span class="project-tag">Forecasting</span>
+        <svg viewBox="0 0 200 48"><polyline points="0,30 20,26 40,32 60,20 80,24 100,10 120,16 140,8 160,14 180,4 200,10" fill="none" stroke="#45d8c8" stroke-width="2"/></svg>
+        <h3>Epidemiological Forecasting Model</h3>
+        <p>Time-series forecasting of regional case counts, feeding a resource-allocation tool used by a public health team during peak season.</p>
+        <div class="pill-row"><span class="pill">Python</span><span class="pill">Prophet</span><span class="pill">SQL</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= INTERACTIVE LAB ================= -->
+<section id="lab">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">interactive lab</div>
+      <h2>Don't just read the analysis. Run it.</h2>
+      <p>Three small experiments pulled from the methods above. Move the inputs and watch the statistics respond.</p>
+      <div class="lab-note">Simulated data, for demonstration — not drawn from any real trial or patient cohort.</div>
+    </div>
+
+    <div class="lab-stack">
+
+      <!-- Survival Analysis -->
+      <div class="lab-card reveal">
+        <div class="lab-meta">
+          <span class="lab-tag">Survival Analysis</span>
+          <h3>What a treatment effect does to a survival curve</h3>
+          <p class="lab-desc">Kaplan–Meier estimates for a treatment arm against a fixed control arm. Increasing the treatment effect shifts the curve right — patients stay event-free longer.</p>
+          <div class="lab-control">
+            <label>Treatment effect <span class="val" id="survival-val">50</span></label>
+            <input type="range" id="survival-slider" min="0" max="100" value="50">
+          </div>
+          <div class="lab-stats">
+            <div class="lab-stat"><div class="num" id="survival-median">—</div><div class="label">Median survival, Tx (mo)</div></div>
+            <div class="lab-stat"><div class="num" id="survival-hr">—</div><div class="label">Hazard ratio</div></div>
+            <div class="lab-stat"><div class="num" id="survival-ci">—</div><div class="label">95% CI</div></div>
+          </div>
+        </div>
+        <div class="lab-meta">
+          <div class="lab-viz">
+            <svg viewBox="0 0 400 220" id="lab-km-svg">
+              <line x1="30" y1="180" x2="380" y2="180" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+              <line x1="30" y1="20" x2="30" y2="180" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+              <path id="lab-km-treatment" fill="none" stroke="#45d8c8" stroke-width="2.5"/>
+              <path id="lab-km-control" fill="none" stroke="#ff7a59" stroke-width="2.5"/>
+              <line id="lab-km-hover-line" x1="0" y1="20" x2="0" y2="180" stroke="rgba(255,255,255,0.25)" stroke-width="1" style="display:none;"/>
+              <rect id="lab-km-hitarea" x="30" y="20" width="350" height="160" fill="transparent"/>
+            </svg>
+            <div class="lab-tooltip" id="lab-km-tooltip">
+              <div class="row">Time: <b id="tt-time">—</b> mo</div>
+              <div class="row">Treatment: <b id="tt-tx">—</b></div>
+              <div class="row">Control: <b id="tt-ctrl">—</b></div>
+            </div>
+            <div class="lab-legend">
+              <span><i style="background:#45d8c8"></i>Treatment arm</span>
+              <span><i style="background:#ff7a59"></i>Control arm</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Causal Inference -->
+      <div class="lab-card reveal">
+        <div class="lab-meta">
+          <span class="lab-tag">Causal Inference</span>
+          <h3>What happens when you don't adjust for a confounder</h3>
+          <p class="lab-desc">A confounder influences both treatment assignment and the outcome. Left unadjusted, it biases the estimated effect. Toggle the adjustment to see the estimate correct itself.</p>
+          <label class="lab-toggle">
+            <input type="checkbox" id="causal-toggle" checked>
+            Adjust for confounder
+          </label>
+          <div class="lab-stats">
+            <div class="lab-stat" id="causal-stat-naive"><div class="num" id="causal-naive">−0.42</div><div class="label">Naive effect estimate</div></div>
+            <div class="lab-stat" id="causal-stat-adjusted"><div class="num" id="causal-adjusted">−0.18</div><div class="label">Adjusted effect (true)</div></div>
+          </div>
+        </div>
+        <div class="lab-meta">
+          <div class="lab-viz">
+            <svg viewBox="0 0 400 200" id="causal-dag-svg">
+              <line id="edge-c-t" x1="90" y1="60" x2="200" y2="140" stroke="#ff7a59" stroke-width="1.8"/>
+              <line id="edge-c-o" x1="90" y1="60" x2="330" y2="70" stroke="#ff7a59" stroke-width="1.8"/>
+              <line id="edge-t-o" x1="200" y1="140" x2="330" y2="70" stroke="rgba(255,255,255,0.35)" stroke-width="1.8"/>
+              <g id="marker-c-t"></g>
+              <g id="marker-c-o"></g>
+              <g id="marker-t-o"></g>
+
+              <circle cx="90" cy="60" r="7" fill="#0b0f1a" stroke="#ff7a59" stroke-width="1.8"/>
+              <text x="90" y="38" text-anchor="middle" fill="#e7ecf5" font-family="JetBrains Mono, monospace" font-size="11">Confounder</text>
+
+              <circle cx="200" cy="140" r="7" fill="#0b0f1a" stroke="#45d8c8" stroke-width="1.8"/>
+              <text x="200" y="168" text-anchor="middle" fill="#e7ecf5" font-family="JetBrains Mono, monospace" font-size="11">Treatment</text>
+
+              <circle cx="330" cy="70" r="7" fill="#0b0f1a" stroke="#45d8c8" stroke-width="1.8"/>
+              <text x="330" y="48" text-anchor="middle" fill="#e7ecf5" font-family="JetBrains Mono, monospace" font-size="11">Outcome</text>
+
+              <g id="causal-block-mark" style="display:none;">
+                <line x1="80" y1="90" x2="100" y2="110" stroke="#ff7a59" stroke-width="2.5"/>
+                <line x1="100" y1="90" x2="80" y2="110" stroke="#ff7a59" stroke-width="2.5"/>
+                <line x1="245" y1="55" x2="265" y2="75" stroke="#ff7a59" stroke-width="2.5"/>
+                <line x1="265" y1="55" x2="245" y2="75" stroke="#ff7a59" stroke-width="2.5"/>
+              </g>
+            </svg>
+            <div class="lab-legend">
+              <span><i style="background:#ff7a59"></i>Confounding path</span>
+              <span><i style="background:rgba(255,255,255,0.35)"></i>Causal path</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bayesian Inference -->
+      <div class="lab-card reveal">
+        <div class="lab-meta">
+          <span class="lab-tag">Bayesian Methods</span>
+          <h3>Watching a prior turn into a posterior</h3>
+          <p class="lab-desc">A wide, weakly-informative prior gets updated by incoming data. As more observations arrive, the posterior narrows and shifts toward the observed effect.</p>
+          <div class="lab-control">
+            <label>Observations collected <span class="val" id="bayes-val">0</span></label>
+            <input type="range" id="bayes-slider" min="0" max="200" value="0" step="4">
+          </div>
+          <div class="lab-stats">
+            <div class="lab-stat"><div class="num" id="bayes-mean">0.00</div><div class="label">Posterior mean</div></div>
+            <div class="lab-stat"><div class="num" id="bayes-ci">±2.00</div><div class="label">95% credible interval</div></div>
+          </div>
+        </div>
+        <div class="lab-meta">
+          <div class="lab-viz">
+            <svg viewBox="0 0 400 200" id="bayes-svg">
+              <line x1="20" y1="180" x2="380" y2="180" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+              <path id="bayes-prior" fill="none" stroke="rgba(138,149,172,0.7)" stroke-width="1.6" stroke-dasharray="4 3"/>
+              <path id="bayes-likelihood" fill="none" stroke="#ff7a59" stroke-width="1.6" stroke-dasharray="1 3" opacity="0.85"/>
+              <path id="bayes-posterior" fill="none" stroke="#45d8c8" stroke-width="2.5"/>
+            </svg>
+            <div class="lab-legend">
+              <span><i style="background:#8a95ac"></i>Prior</span>
+              <span><i style="background:#ff7a59"></i>Likelihood</span>
+              <span><i style="background:#45d8c8"></i>Posterior</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= SKILLS ================= -->
+<section id="skills">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">toolkit</div>
+      <h2>Skills</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group reveal">
+        <div class="group-title">Statistical Methods</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Survival Analysis</span>
+          <span class="skill-tag">Bayesian Inference</span>
+          <span class="skill-tag">Causal Inference</span>
+          <span class="skill-tag">Mixed Effects Models</span>
+          <span class="skill-tag">Bootstrapping</span>
+          <span class="skill-tag">Power Analysis</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="group-title">Machine Learning</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Gradient Boosting</span>
+          <span class="skill-tag">Random Forests</span>
+          <span class="skill-tag">Deep Learning</span>
+          <span class="skill-tag">Feature Engineering</span>
+          <span class="skill-tag">Model Calibration</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="group-title">Languages &amp; Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag">R</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">SAS</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">Stan</span>
+          <span class="skill-tag">Git</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="group-title">Domains</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Clinical Trials</span>
+          <span class="skill-tag">Genomics</span>
+          <span class="skill-tag">Epidemiology</span>
+          <span class="skill-tag">Real-World Evidence</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact">
+  <div class="container contact-inner reveal">
+    <div class="eyebrow">get in touch</div>
+    <h2>Let's turn your data into evidence.</h2>
+    <p>Open to research collaborations, consulting, and full-time roles in biostatistics and applied data science.</p>
+    <div class="contact-links">
+      <a href="mailto:brian.keya@example.com" class="btn btn-primary">brian.keya@example.com</a>
+      <a href="#" class="btn btn-ghost">LinkedIn</a>
+      <a href="#" class="btn btn-ghost">GitHub</a>
+      <a href="#" class="btn btn-ghost">Google Scholar</a>
+    </div>
+    <svg class="pulse-divider" viewBox="0 0 400 40" preserveAspectRatio="none">
+      <polyline points="0,20 140,20 155,4 170,36 185,20 400,20" fill="none" stroke="#45d8c8" stroke-width="1.5" opacity="0.7"/>
+    </svg>
+  </div>
+</section>
+
+<footer>
+  <p>Built with data, checked twice · © 2026 Brian Keya</p>
+</footer>
+
+<script>
+(function(){
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Reveal on scroll ---------- */
+  const revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el=>io.observe(el));
+  } else {
+    revealEls.forEach(el=>el.classList.add('in'));
+  }
+
+  /* ---------- KM curve draw-in ---------- */
+  ['km-path-a','km-path-b'].forEach((id,i)=>{
+    const path = document.getElementById(id);
+    if(!path) return;
+    const len = path.getTotalLength();
+    path.style.strokeDasharray = len;
+    path.style.strokeDashoffset = reduceMotion ? 0 : len;
+    if(!reduceMotion){
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            path.style.transition = 'stroke-dashoffset 1.6s ease ' + (i*0.25) + 's';
+            path.style.strokeDashoffset = 0;
+            obs.disconnect();
+          }
+        });
+      }, { threshold: 0.3 });
+      obs.observe(path);
+    }
+  });
+
+  /* ---------- Hero 3D parallax tilt ---------- */
+  const heroVisual = document.getElementById('hero-visual');
+  const hero = document.getElementById('hero');
+  if(!reduceMotion && heroVisual){
+    hero.addEventListener('mousemove', (e)=>{
+      const r = hero.getBoundingClientRect();
+      const x = (e.clientX - r.left)/r.width - 0.5;
+      const y = (e.clientY - r.top)/r.height - 0.5;
+      heroVisual.style.transform = `rotateY(${x*6}deg) rotateX(${-y*6}deg) scale(1.03)`;
+    });
+    hero.addEventListener('mouseleave', ()=>{ heroVisual.style.transform = 'rotateY(0) rotateX(0) scale(1)'; });
+  }
+
+  /* ---------- Project card tilt + glare ---------- */
+  document.querySelectorAll('.project-card').forEach(card=>{
+    if(reduceMotion) return;
+    card.addEventListener('mousemove', (e)=>{
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left)/r.width;
+      const y = (e.clientY - r.top)/r.height;
+      const rx = (0.5 - y) * 10;
+      const ry = (x - 0.5) * 10;
+      card.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
+      card.style.setProperty('--gx', (x*100)+'%');
+      card.style.setProperty('--gy', (y*100)+'%');
+    });
+    card.addEventListener('mouseleave', ()=>{
+      card.style.transform = 'perspective(700px) rotateX(0) rotateY(0) translateY(0)';
+    });
+  });
+
+  /* ---------- Animated causal-DAG network canvas ---------- */
+  const canvas = document.getElementById('network-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, DPR;
+
+  function resize(){
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = canvas.clientWidth; H = canvas.clientHeight;
+    canvas.width = W * DPR; canvas.height = H * DPR;
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // Causal DAG nodes: Confounder -> Exposure -> Outcome, Exposure -> Mediator -> Outcome, Confounder -> Outcome
+  function layoutNodes(){
+    return [
+      { id:'confounder', label:'Confounder', x: W*0.18, y: H*0.28, r: 5 },
+      { id:'exposure',   label:'Exposure',   x: W*0.34, y: H*0.62, r: 6 },
+      { id:'mediator',   label:'Mediator',   x: W*0.60, y: H*0.32, r: 5 },
+      { id:'outcome',    label:'Outcome',    x: W*0.82, y: H*0.58, r: 7 },
+    ];
+  }
+  let nodes = layoutNodes();
+  const edges = [
+    ['confounder','exposure'], ['confounder','outcome'],
+    ['exposure','mediator'], ['exposure','outcome'],
+    ['mediator','outcome']
+  ];
+
+  // ambient background particles (depth layer)
+  const particles = Array.from({length: 46}, ()=>({
+    x: Math.random(), y: Math.random(),
+    r: Math.random()*1.6 + 0.4,
+    vx: (Math.random()-0.5)*0.00018,
+    vy: (Math.random()-0.5)*0.00018,
+    a: Math.random()*0.4 + 0.15
+  }));
+
+  let t = 0;
+  let drawProgress = reduceMotion ? 1 : 0;
+
+  function drawArrowHead(x1,y1,x2,y2, color){
+    const angle = Math.atan2(y2-y1, x2-x1);
+    const len = 8;
+    ctx.beginPath();
+    ctx.moveTo(x2, y2);
+    ctx.lineTo(x2 - len*Math.cos(angle-0.4), y2 - len*Math.sin(angle-0.4));
+    ctx.lineTo(x2 - len*Math.cos(angle+0.4), y2 - len*Math.sin(angle+0.4));
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
+  function frame(){
+    t += 0.008;
+    ctx.clearRect(0,0,W,H);
+
+    // background particles
+    particles.forEach(p=>{
+      p.x += p.vx; p.y += p.vy;
+      if(p.x<0) p.x=1; if(p.x>1) p.x=0;
+      if(p.y<0) p.y=1; if(p.y>1) p.y=0;
+      ctx.beginPath();
+      ctx.arc(p.x*W, p.y*H, p.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(120,150,190,${p.a*0.5})`;
+      ctx.fill();
+    });
+
+    // gentle float for nodes
+    const floated = nodes.map((n,i)=>({
+      ...n,
+      fx: n.x + Math.sin(t + i*1.7) * 6,
+      fy: n.y + Math.cos(t*0.8 + i*2.1) * 6
+    }));
+    const byId = Object.fromEntries(floated.map(n=>[n.id,n]));
+
+    if(drawProgress < 1) drawProgress = Math.min(1, drawProgress + 0.006);
+
+    // edges
+    edges.forEach(([a,b], i)=>{
+      const na = byId[a], nb = byId[b];
+      const edgeStart = i / edges.length;
+      const edgeEnd = (i+1) / edges.length;
+      let localProg = (drawProgress - edgeStart) / (edgeEnd - edgeStart);
+      localProg = Math.max(0, Math.min(1, localProg));
+      if(localProg <= 0) return;
+
+      const ex = na.fx + (nb.fx - na.fx) * localProg;
+      const ey = na.fy + (nb.fy - na.fy) * localProg;
+
+      const grad = ctx.createLinearGradient(na.fx, na.fy, nb.fx, nb.fy);
+      grad.addColorStop(0, 'rgba(69,216,200,0.55)');
+      grad.addColorStop(1, 'rgba(255,122,89,0.35)');
+
+      ctx.beginPath();
+      ctx.moveTo(na.fx, na.fy);
+      ctx.lineTo(ex, ey);
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1.4;
+      ctx.stroke();
+
+      if(localProg >= 0.98){
+        drawArrowHead(na.fx, na.fy, nb.fx, nb.fy, 'rgba(255,122,89,0.6)');
+      }
+    });
+
+    // nodes
+    floated.forEach(n=>{
+      const pulse = 1 + Math.sin(t*2 + n.x) * 0.08;
+      ctx.beginPath();
+      ctx.arc(n.fx, n.fy, n.r * 2.6 * pulse, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(69,216,200,0.06)';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(n.fx, n.fy, n.r, 0, Math.PI*2);
+      ctx.fillStyle = '#0b0f1a';
+      ctx.fill();
+      ctx.lineWidth = 1.6;
+      ctx.strokeStyle = '#45d8c8';
+      ctx.stroke();
+
+      ctx.font = '11px "JetBrains Mono", monospace';
+      ctx.fillStyle = 'rgba(231,236,245,0.75)';
+      ctx.textAlign = 'center';
+      ctx.fillText(n.label, n.fx, n.fy - n.r - 12);
+    });
+
+    if(!reduceMotion){
+      requestAnimationFrame(frame);
+    }
+  }
+
+  window.addEventListener('resize', ()=>{ nodes = layoutNodes(); });
+  frame();
+  if(reduceMotion){
+    // draw a single static-ish frame periodically isn't needed; one call already rendered above via frame() once since loop guarded.
+  }
+
+  /* ============================================================
+     INTERACTIVE LAB
+     ============================================================ */
+
+  /* ---------- Survival Analysis demo ---------- */
+  (function(){
+    const slider = document.getElementById('survival-slider');
+    const valEl = document.getElementById('survival-val');
+    const txPath = document.getElementById('lab-km-treatment');
+    const ctrlPath = document.getElementById('lab-km-control');
+    const medianEl = document.getElementById('survival-median');
+    const hrEl = document.getElementById('survival-hr');
+    const ciEl = document.getElementById('survival-ci');
+    const hitarea = document.getElementById('lab-km-hitarea');
+    const hoverLine = document.getElementById('lab-km-hover-line');
+    const tooltip = document.getElementById('lab-km-tooltip');
+    const svg = document.getElementById('lab-km-svg');
+    if(!slider) return;
+
+    const CONTROL_SCALE = 18, SHAPE = 1.3, TMAX = 60;
+    let current = { txScale: 35.5, controlScale: CONTROL_SCALE, shape: SHAPE };
+
+    function survivalS(t, scale, shape){ return Math.exp(-Math.pow(Math.max(t,0.0001)/scale, shape)); }
+
+    function buildKMPath(scale, shape){
+      const steps = 9;
+      const pts = [];
+      for(let i=0;i<=steps;i++){
+        const frac = Math.pow(i/steps, 1.3);
+        const t = TMAX*frac;
+        pts.push([t, survivalS(t, scale, shape)]);
+      }
+      let d = '';
+      pts.forEach((pt,i)=>{
+        const [t,s] = pt;
+        const x = 30 + (t/TMAX)*350;
+        const y = 180 - s*160;
+        if(i===0){ d += `M${x.toFixed(1)},${y.toFixed(1)} `; }
+        else{
+          const prevY = 180 - pts[i-1][1]*160;
+          d += `L${x.toFixed(1)},${prevY.toFixed(1)} L${x.toFixed(1)},${y.toFixed(1)} `;
+        }
+      });
+      return d;
+    }
+
+    function update(){
+      const v = parseInt(slider.value,10);
+      valEl.textContent = v;
+      const txScale = CONTROL_SCALE + v*0.35;
+      current = { txScale, controlScale: CONTROL_SCALE, shape: SHAPE };
+
+      txPath.setAttribute('d', buildKMPath(txScale, SHAPE));
+      ctrlPath.setAttribute('d', buildKMPath(CONTROL_SCALE, SHAPE));
+
+      const medianTx = txScale * Math.pow(Math.log(2), 1/SHAPE);
+      const hr = Math.pow(CONTROL_SCALE/txScale, SHAPE);
+      const half = 0.12;
+      const ciLow = Math.max(0.05, hr-half);
+      const ciHigh = hr+half;
+
+      medianEl.textContent = medianTx.toFixed(1);
+      hrEl.textContent = hr.toFixed(2);
+      ciEl.textContent = `[${ciLow.toFixed(2)}, ${ciHigh.toFixed(2)}]`;
+    }
+    slider.addEventListener('input', update);
+    update();
+
+    if(hitarea){
+      hitarea.addEventListener('mousemove', (e)=>{
+        const rect = svg.getBoundingClientRect();
+        const scaleX = rect.width/400;
+        const mouseX = (e.clientX - rect.left)/scaleX;
+        const t = Math.max(0, Math.min(TMAX, ((mouseX-30)/350)*TMAX));
+        const sTx = survivalS(t, current.txScale, current.shape);
+        const sCtrl = survivalS(t, current.controlScale, current.shape);
+
+        hoverLine.style.display = 'block';
+        hoverLine.setAttribute('x1', mouseX); hoverLine.setAttribute('x2', mouseX);
+
+        document.getElementById('tt-time').textContent = t.toFixed(1);
+        document.getElementById('tt-tx').textContent = sTx.toFixed(2);
+        document.getElementById('tt-ctrl').textContent = sCtrl.toFixed(2);
+
+        const wrapRect = hitarea.closest('.lab-viz').getBoundingClientRect();
+        tooltip.style.left = (e.clientX - wrapRect.left) + 'px';
+        tooltip.style.top = (e.clientY - wrapRect.top) + 'px';
+        tooltip.classList.add('show');
+      });
+      hitarea.addEventListener('mouseleave', ()=>{
+        hoverLine.style.display = 'none';
+        tooltip.classList.remove('show');
+      });
+    }
+  })();
+
+  /* ---------- Causal Inference demo ---------- */
+  (function(){
+    const toggle = document.getElementById('causal-toggle');
+    if(!toggle) return;
+    const edgeCT = document.getElementById('edge-c-t');
+    const edgeCO = document.getElementById('edge-c-o');
+    const edgeTO = document.getElementById('edge-t-o');
+    const blockMark = document.getElementById('causal-block-mark');
+    const naiveStat = document.getElementById('causal-stat-naive');
+    const adjustedStat = document.getElementById('causal-stat-adjusted');
+
+    function update(){
+      const adjusted = toggle.checked;
+      blockMark.style.display = adjusted ? 'block' : 'none';
+      edgeCT.style.opacity = adjusted ? 0.25 : 1;
+      edgeCO.style.opacity = adjusted ? 0.25 : 1;
+      edgeTO.setAttribute('stroke', adjusted ? '#45d8c8' : 'rgba(255,255,255,0.35)');
+      naiveStat.style.opacity = adjusted ? 0.4 : 1;
+      adjustedStat.style.opacity = adjusted ? 1 : 0.4;
+    }
+    toggle.addEventListener('change', update);
+    update();
+  })();
+
+  /* ---------- Bayesian Inference demo ---------- */
+  (function(){
+    const slider = document.getElementById('bayes-slider');
+    if(!slider) return;
+    const valEl = document.getElementById('bayes-val');
+    const meanEl = document.getElementById('bayes-mean');
+    const ciEl = document.getElementById('bayes-ci');
+    const priorPath = document.getElementById('bayes-prior');
+    const likPath = document.getElementById('bayes-likelihood');
+    const postPath = document.getElementById('bayes-posterior');
+
+    const PRIOR_MEAN = 0, PRIOR_SD = 1.8;
+    const DATA_MEAN = 1.4, DATA_SD = 1.8;
+
+    function normalPDF(x, mean, sd){
+      if(sd<=0) return 0;
+      return (1/(sd*Math.sqrt(2*Math.PI))) * Math.exp(-0.5*Math.pow((x-mean)/sd,2));
+    }
+
+    // Peak height (in px) is log-compressed between a prior baseline and the
+    // peak reachable at the slider's max n, so the posterior visibly narrows
+    // across the whole range instead of maxing out within the first few steps.
+    const H_MIN = 40, H_MAX = 150;
+    const priorPeakPdf = normalPDF(PRIOR_MEAN, PRIOR_MEAN, PRIOR_SD);
+    const nMax = parseInt(slider.max,10);
+    const postVarMax = 1/(1/(PRIOR_SD*PRIOR_SD) + nMax/(DATA_SD*DATA_SD));
+    const postPeakPdfMax = 1/(Math.sqrt(postVarMax)*Math.sqrt(2*Math.PI));
+    const LOG_MIN = Math.log(1+priorPeakPdf);
+    const LOG_MAX = Math.log(1+postPeakPdfMax);
+
+    function pdfToHeight(pdf){
+      const t = (Math.log(1+pdf)-LOG_MIN)/(LOG_MAX-LOG_MIN);
+      const h = H_MIN + (H_MAX-H_MIN)*t;
+      return Math.max(0, Math.min(H_MAX, h));
+    }
+
+    function buildCurve(mean, sd){
+      const xMin=-4, xMax=4, steps=140;
+      let d='';
+      for(let i=0;i<=steps;i++){
+        const x = xMin + (xMax-xMin)*i/steps;
+        const pdf = normalPDF(x, mean, sd);
+        const px = 20 + (x-xMin)/(xMax-xMin)*360;
+        const py = 180 - pdfToHeight(pdf);
+        d += (i===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' ';
+      }
+      return d;
+    }
+
+    function update(){
+      const n = parseInt(slider.value,10);
+      valEl.textContent = n;
+
+      let postMean, postSD;
+      if(n===0){ postMean = PRIOR_MEAN; postSD = PRIOR_SD; }
+      else{
+        const postVar = 1/(1/(PRIOR_SD*PRIOR_SD) + n/(DATA_SD*DATA_SD));
+        postMean = postVar*(PRIOR_MEAN/(PRIOR_SD*PRIOR_SD) + n*DATA_MEAN/(DATA_SD*DATA_SD));
+        postSD = Math.sqrt(postVar);
+      }
+      const likSD = n>0 ? DATA_SD/Math.sqrt(n) : null;
+
+      priorPath.setAttribute('d', buildCurve(PRIOR_MEAN, PRIOR_SD));
+      postPath.setAttribute('d', buildCurve(postMean, postSD));
+      if(likSD){
+        likPath.setAttribute('d', buildCurve(DATA_MEAN, likSD));
+        likPath.style.opacity = 0.85;
+      } else {
+        likPath.style.opacity = 0;
+      }
+
+      meanEl.textContent = postMean.toFixed(2);
+      ciEl.textContent = '±' + (1.96*postSD).toFixed(2);
+    }
+    slider.addEventListener('input', update);
+    update();
+  })();
+
+})();
+</script>
+
+</body>
+</html>
